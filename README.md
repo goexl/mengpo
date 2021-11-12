@@ -65,7 +65,7 @@ type testByTag struct {
 }
 
 func main() {
-	tag := new(testByTag)
+    tag := new(testByTag)
     if err := god.Set(tag, god.Tag(`test`)); nil != err {
         panic(err)
     }
