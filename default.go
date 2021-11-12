@@ -37,7 +37,7 @@ func Set(ptr interface{}, opts ...option) (err error) {
 	}
 
 	for index := 0; index < _type.NumField(); index++ {
-		if defaultValue := _type.Field(index).Tag.Get(_options.tag); `-` != defaultValue {
+		if defaultValue := _type.Field(index).Tag.Get(_options.tag); tagIgnore != defaultValue {
 			if err = setField(value.Field(index), defaultValue); nil != err {
 				return
 			}
@@ -123,7 +123,7 @@ func setField(field reflect.Value, defaultValue string) (err error) {
 		case reflect.Slice:
 			ref := reflect.New(field.Type())
 			ref.Elem().Set(reflect.MakeSlice(field.Type(), 0, 0))
-			if `` != defaultValue && `[]` != defaultValue {
+			if `` != defaultValue && jsonSlice != defaultValue {
 				if err = json.Unmarshal(toSimpleJson(defaultValue), ref.Interface()); nil != err {
 					return
 				}
@@ -132,14 +132,14 @@ func setField(field reflect.Value, defaultValue string) (err error) {
 		case reflect.Map:
 			ref := reflect.New(field.Type())
 			ref.Elem().Set(reflect.MakeMap(field.Type()))
-			if `` != defaultValue && `{}` != defaultValue {
+			if `` != defaultValue && jsonMap != defaultValue {
 				if err = json.Unmarshal(toSimpleJson(defaultValue), ref.Interface()); nil != err {
 					return
 				}
 			}
 			field.Set(ref.Elem().Convert(field.Type()))
 		case reflect.Struct:
-			if `` != defaultValue && `{}` != defaultValue {
+			if `` != defaultValue && jsonStruct != defaultValue {
 				if err = json.Unmarshal(toSimpleJson(defaultValue), field.Addr().Interface()); nil != err {
 					return
 				}
