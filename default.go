@@ -152,7 +152,7 @@ func setField(field reflect.Value, defaultValue string) (err error) {
 	switch field.Kind() {
 	case reflect.Ptr:
 		if isInitial || field.Elem().Kind() == reflect.Struct {
-			// 不关注错误，必须执行
+			// 不关注错误，后面的代码必须执行
 			_ = setField(field.Elem(), defaultValue)
 			_setter(field.Interface())
 		}
