@@ -11,6 +11,13 @@ Golang默认值设置工具，支持功能
     - `uint8`
     - `uint32`
     - `uint64`
+    - `bool`
+    - `float32`
+    - `float64`
+- 支持复杂类型
+    - `slice`
+    - `map`
+    - `struct`
 - 支持配置
     - 配置所使用的`tag`名称
 - 支持复杂结构初始化值
@@ -18,3 +25,49 @@ Golang默认值设置工具，支持功能
     - 支持更易于书写的初始化值
 - 支持类型别名
 - 支持指针类型
+
+## 使用方法
+
+### 简单使用
+
+使用非常简单，只需要调用`god.Set`就可以了
+
+```go
+package main
+
+import `github.com/storezhang/god`
+
+type test struct {
+    Addr string `default:"127.0.0.1"`
+    Port int    `default:"80"`
+}
+
+func main() {
+    _test := new(test)
+    if err := god.Set(_test); nil != err {
+        panic(err)
+    }
+}
+```
+
+### 配置标签
+
+可以很方便的使用其它`标签`，方法
+
+```go
+package main
+
+import `github.com/storezhang/god`
+
+type testByTag struct {
+    Addr string `test:"127.0.0.1"`
+    Port int    `test:"80"`
+}
+
+func main() {
+	tag := new(testByTag)
+    if err := god.Set(tag, god.Tag(`test`)); nil != err {
+        panic(err)
+    }
+}
+```
