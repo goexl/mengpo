@@ -1,11 +1,12 @@
 package god
 
 type setter interface {
-	Defaults()
+	// Default 设置默认值
+	Default()
 }
 
 func _setter(val interface{}) {
 	if s, ok := val.(setter); ok {
-		s.Defaults()
+		s.Default()
 	}
 }
