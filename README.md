@@ -80,6 +80,8 @@ func main() {
 - `slice`
 - `struct`
 
+`json`写法支持使用单引号`'`来替换转义字符`\"`，这样在书写默认值`json`更容易
+
 ```go
 package main
 
@@ -87,6 +89,8 @@ import `github.com/storezhang/god`
 
 type testByJson struct {
     Orders []string `default:"['mqtts', 'mqtt', 'wss', 'ws']"`
+	// 同样支持这样写
+	// Orders []string `default:"[\"mqtts\", \"mqtt\", \"wss\", \"ws\"]"`
 }
 
 func main() {
