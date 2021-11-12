@@ -37,14 +37,14 @@ package main
 
 import `github.com/storezhang/god`
 
-type test struct {
+type testByNormal struct {
     Addr string `default:"127.0.0.1"`
     Port int    `default:"80"`
 }
 
 func main() {
-    _test := new(test)
-    if err := god.Set(_test); nil != err {
+    normal := new(testByNormal)
+    if err := god.Set(normal); nil != err {
         panic(err)
     }
 }
