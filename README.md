@@ -89,8 +89,8 @@ import `github.com/storezhang/god`
 
 type testByJson struct {
     Orders []string `default:"['mqtts', 'mqtt', 'wss', 'ws']"`
-	// 同样支持这样写
-	// Orders []string `default:"[\"mqtts\", \"mqtt\", \"wss\", \"ws\"]"`
+    // 同样支持这样写
+    // Orders []string `default:"[\"mqtts\", \"mqtt\", \"wss\", \"ws\"]"`
 }
 
 func main() {
