@@ -124,7 +124,7 @@ func setField(field reflect.Value, defaultValue string) (err error) {
 			ref := reflect.New(field.Type())
 			ref.Elem().Set(reflect.MakeSlice(field.Type(), 0, 0))
 			if `` != defaultValue && jsonSlice != defaultValue {
-				if err = json.Unmarshal(toSimpleJson(defaultValue), ref.Interface()); nil != err {
+				if err = json.Unmarshal(parseJson(defaultValue), ref.Interface()); nil != err {
 					return
 				}
 			}
@@ -133,14 +133,14 @@ func setField(field reflect.Value, defaultValue string) (err error) {
 			ref := reflect.New(field.Type())
 			ref.Elem().Set(reflect.MakeMap(field.Type()))
 			if `` != defaultValue && jsonMap != defaultValue {
-				if err = json.Unmarshal(toSimpleJson(defaultValue), ref.Interface()); nil != err {
+				if err = json.Unmarshal(parseJson(defaultValue), ref.Interface()); nil != err {
 					return
 				}
 			}
 			field.Set(ref.Elem().Convert(field.Type()))
 		case reflect.Struct:
 			if `` != defaultValue && jsonStruct != defaultValue {
-				if err = json.Unmarshal(toSimpleJson(defaultValue), field.Addr().Interface()); nil != err {
+				if err = json.Unmarshal(parseJson(defaultValue), field.Addr().Interface()); nil != err {
 					return
 				}
 			}
@@ -171,7 +171,7 @@ func setField(field reflect.Value, defaultValue string) (err error) {
 	return
 }
 
-func toSimpleJson(from string) []byte {
+func parseJson(from string) []byte {
 	return []byte(strings.ReplaceAll(from, `'`, `"`))
 }
 
