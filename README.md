@@ -71,3 +71,28 @@ func main() {
     }
 }
 ```
+
+### 配置复杂类型
+
+可以使用`json`来配置复杂的类型，比如
+
+- `map`
+- `slice`
+- `struct`
+
+```go
+package main
+
+import `github.com/storezhang/god`
+
+type testByJson struct {
+    Orders []string `default:"['mqtts', 'mqtt', 'wss', 'ws']"`
+}
+
+func main() {
+    json := new(testByJson)
+    if err := god.Set(json); nil != err {
+        panic(err)
+    }
+}
+```
