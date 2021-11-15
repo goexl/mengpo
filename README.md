@@ -121,9 +121,9 @@ package main
 import `github.com/storezhang/mengpo`
 
 type testByEnv struct {
-    Order string `default:"${Order}"`
+    Order string `default:"${ORDER}"`
     // 同样支持这种写法
-    // Order string `default:"$Order"`
+    // Order string `default:"$ORDER"`
 }
 
 func main() {
