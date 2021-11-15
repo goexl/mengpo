@@ -2,6 +2,7 @@ package god
 
 import (
 	`encoding/json`
+	`os`
 	`reflect`
 	`strconv`
 	`strings`
@@ -38,6 +39,8 @@ func Set(ptr interface{}, opts ...option) (err error) {
 
 	for index := 0; index < _type.NumField(); index++ {
 		if defaultValue := _type.Field(index).Tag.Get(_options.tag); tagIgnore != defaultValue {
+			// 处理默认值中带环境变量
+			defaultValue = os.ExpandEnv(defaultValue)
 			if err = setField(value.Field(index), defaultValue); nil != err {
 				return
 			}
