@@ -38,6 +38,26 @@ Golang默认值设置工具，支持功能
 
 ## 使用方法
 
+### 安装
+
+安装非常简单，推荐使用`go.mod`来使用`孟婆`
+
+```go
+package main
+
+import `github.com/storezhang/mengpo`
+
+func main() {
+    // xxx
+}
+```
+
+或者
+
+```shell
+go get github.com/storezhang/mengpo
+```
+
 ### 简单使用
 
 使用非常简单，只需要调用`mengpo.Set`就可以了
