@@ -1,4 +1,4 @@
-package god
+package mengpo
 
 type setter interface {
 	// Default 设置默认值

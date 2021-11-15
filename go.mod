@@ -1,3 +1,3 @@
-module github.com/storezhang/god
+module github.com/storezhang/mengpo
 
 go 1.16
