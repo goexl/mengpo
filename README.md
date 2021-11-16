@@ -25,7 +25,9 @@ Golang默认值设置工具，支持功能
     - 支持更易于书写的初始化值
 - 支持类型别名
 - 支持指针类型
-- 支持`环境变量`
+- 默认支持`环境变量`
+- 支持完整的生命周期方法
+    - `Before`
 
 ## 为什么要叫孟婆
 
@@ -154,3 +156,34 @@ func main() {
     }
 }
 ```
+
+### 配置生命周期方法
+
+`孟婆`可以很方便的配置生命周期方法（生命周期方法都有默认实现），从而达到更大的扩展性
+
+#### `Before`
+
+`Before`在取出配置的默认值字符串后，进行默认值替换前被调用
+
+```go
+package main
+
+import `github.com/storezhang/mengpo`
+
+type testByBefore struct {
+    Order string `default:"${ORDER}"`
+    // 同样支持这种写法
+    // Order string `default:"$ORDER"`
+}
+
+func main() {
+    env := new(testByBefore)
+    if err := mengpo.Set(env, mengpo.Before(func(original string) string {
+        return original
+    })); nil != err {
+        panic(err)
+    }
+}
+```
+
+> 注意，默认的`Before`方法是调用系统方法`os.ExpandEnv`解析环境变量

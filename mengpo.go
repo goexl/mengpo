@@ -2,7 +2,6 @@ package mengpo
 
 import (
 	`encoding/json`
-	`os`
 	`reflect`
 	`strconv`
 	`strings`
@@ -39,9 +38,7 @@ func Set(ptr interface{}, opts ...option) (err error) {
 
 	for index := 0; index < _type.NumField(); index++ {
 		if dv := _type.Field(index).Tag.Get(_options.tag); tagIgnore != dv {
-			// 处理默认值中带环境变量
-			dv = os.ExpandEnv(dv)
-			if err = setField(value.Field(index), dv); nil != err {
+			if err = setField(value.Field(index), _options.before(dv)); nil != err {
 				return
 			}
 		}
