@@ -168,18 +168,30 @@ func main() {
 
 #### 内置方法（Substitution）
 
-对于环境变量，支持`Substitution`，可以很方便的对`环境变量`做一些变换 | __表达式__                |     __解释__
-| | ----------------- | -------------- | | `${var}`                      | 取值`$var`   | | `${#var}`
-| 取长度`$var`   | | `${var^}`                     | 首字符大写`$var`   | | `${var^^}`                    | 所有字符大写`$var`   |
-| `${var,}`                     | 首字符小写`$var`  | | `${var,,}`                    | 所有字符小写`$var`  | | `${var:n}`
-| 从`n`开始取`$var`子串 | | `${var:n:len}`                | 从`n`开始取长度为`len`的`$var`子串 | | `${var#pattern}`              |
-从开始跳过最少符合`pattern`的子串 | | `${var##pattern}`             | 从开始跳过最多符合`pattern`的子串 | | `${var%pattern}`              |
-从最后跳过最少符合`pattern`的子串 | | `${var%%pattern}`             | 从最后跳过最多符合`pattern`的子串 | | `${var-default`               |
-如果`$var`没有设置就取值`$default`  | | `${var:-default`              | 如果`$var`没有设置或者为空就取值`$default`  | | `${var=default`
-| 如果`$var`没有设置或者为空就取值`$default`  | | `${var:=default`              | 如果`$var`没有设置或者为空就取值`$default`  |
-| `${var/pattern/replacement}`  | 替换最少的符合`pattern`的为`replacement`  | | `${var//pattern/replacement}` | 替换最多的符合`pattern`
-的为`replacement`  | | `${var/#pattern/replacement}` | 从`$var`开始替换符合`pattern`的为`replacement`  |
-| `${var/%pattern/replacement}` | 从`$var`最后替换符合`pattern`的为`replacement`  |
+对于环境变量，支持`Substitution`，可以很方便的对`环境变量`做一些变换
+
+|      __表达式__                |     __解释__        |
+| -----------------             | --------------
+| `${var}`                      | 取值`$var`
+| `${#var}`                     | 取长度`$var`
+| `${var^}`                     | 首字符大写`$var`
+| `${var^^}`                    | 所有字符大写`$var`
+| `${var,}`                     | 首字符小写`$var`
+| `${var,,}`                    | 所有字符小写`$var`
+| `${var:n}`                    | 从`n`开始取`$var`子串
+| `${var:n:len}`                | 从`n`开始取长度为`len`的`$var`子串
+| `${var#pattern}`              | 从开始跳过最少符合`pattern`的子串
+| `${var##pattern}`             | 从开始跳过最多符合`pattern`的子串
+| `${var%pattern}`              | 从最后跳过最少符合`pattern`的子串
+| `${var%%pattern}`             | 从最后跳过最多符合`pattern`的子串
+| `${var-default`               | 如果`$var`没有设置就取值`$default`
+| `${var:-default`              | 如果`$var`没有设置或者为空就取值`$default`
+| `${var=default`               | 如果`$var`没有设置或者为空就取值`$default`
+| `${var:=default`              | 如果`$var`没有设置或者为空就取值`$default`
+| `${var/pattern/replacement}`  | 替换最少的符合`pattern`的为`replacement`
+| `${var//pattern/replacement}` | 替换最多的符合`pattern`的为`replacement`
+| `${var/#pattern/replacement}` | 从`$var`开始替换符合`pattern`的为`replacement`
+| `${var/%pattern/replacement}` | 从`$var`最后替换符合`pattern`的为`replacement`
 
 ### 配置生命周期方法
 
