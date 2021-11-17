@@ -26,6 +26,11 @@ Golang默认值设置工具，支持功能
 - 支持类型别名
 - 支持指针类型
 - 默认支持`环境变量`
+    - 内置支持`环境变量`语法
+    - 增强型`环境变量`（Substitution）
+        - 默认值
+        - 字符串操作
+        - 长度支持
 - 支持完整的生命周期方法
     - `Before`
 
@@ -138,6 +143,10 @@ func main() {
 
 `孟婆`支持使用环境变量来配置默认值
 
+#### 初体验
+
+来一个最简单的环境变量
+
 ```go
 package main
 
@@ -156,6 +165,21 @@ func main() {
     }
 }
 ```
+
+#### 内置方法（Substitution）
+
+对于环境变量，支持`Substitution`，可以很方便的对`环境变量`做一些变换 | __表达式__                |     __解释__
+| | ----------------- | -------------- | | `${var}`                      | 取值`$var`   | | `${#var}`
+| 取长度`$var`   | | `${var^}`                     | 首字符大写`$var`   | | `${var^^}`                    | 所有字符大写`$var`   |
+| `${var,}`                     | 首字符小写`$var`  | | `${var,,}`                    | 所有字符小写`$var`  | | `${var:n}`
+| 从`n`开始取`$var`子串 | | `${var:n:len}`                | 从`n`开始取长度为`len`的`$var`子串 | | `${var#pattern}`              |
+从开始跳过最少符合`pattern`的子串 | | `${var##pattern}`             | 从开始跳过最多符合`pattern`的子串 | | `${var%pattern}`              |
+从最后跳过最少符合`pattern`的子串 | | `${var%%pattern}`             | 从最后跳过最多符合`pattern`的子串 | | `${var-default`               |
+如果`$var`没有设置就取值`$default`  | | `${var:-default`              | 如果`$var`没有设置或者为空就取值`$default`  | | `${var=default`
+| 如果`$var`没有设置或者为空就取值`$default`  | | `${var:=default`              | 如果`$var`没有设置或者为空就取值`$default`  |
+| `${var/pattern/replacement}`  | 替换最少的符合`pattern`的为`replacement`  | | `${var//pattern/replacement}` | 替换最多的符合`pattern`
+的为`replacement`  | | `${var/#pattern/replacement}` | 从`$var`开始替换符合`pattern`的为`replacement`  |
+| `${var/%pattern/replacement}` | 从`$var`最后替换符合`pattern`的为`replacement`  |
 
 ### 配置生命周期方法
 
