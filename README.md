@@ -193,6 +193,28 @@ func main() {
 | `${var/#pattern/replacement}` | 从`$var`开始替换符合`pattern`的为`replacement`
 | `${var/%pattern/replacement}` | 从`$var`最后替换符合`pattern`的为`replacement`
 
+#### 嵌套使用
+
+表达式可以嵌套使用，来达到复杂的计算要求
+
+```go
+package main
+
+import `github.com/storezhang/mengpo`
+
+type testByEnv struct {
+    // 应用版本
+    Version string `default:"${PLUGIN_VERSION=${VERSION=${DRONE_TAG=${DRONE_COMMIT_BRANCH}}}}"`
+}
+
+func main() {
+    env := new(testByEnv)
+    if err := mengpo.Set(env); nil != err {
+        panic(err)
+    }
+}
+```
+
 ### 配置生命周期方法
 
 `孟婆`可以很方便的配置生命周期方法（生命周期方法都有默认实现），从而达到更大的扩展性
