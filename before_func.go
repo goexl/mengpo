@@ -1,3 +1,3 @@
 package mengpo
 
-type beforeFunc func(original string) string
+type beforeFunc func(from string) (to string, err error)

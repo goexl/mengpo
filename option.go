@@ -14,6 +14,6 @@ type (
 func defaultOptions() *options {
 	return &options{
 		tag:    `default`,
-		before: env,
+		before: beforeDefault,
 	}
 }

@@ -38,7 +38,11 @@ func Set(ptr interface{}, opts ...option) (err error) {
 
 	for index := 0; index < _type.NumField(); index++ {
 		if dv := _type.Field(index).Tag.Get(_options.tag); tagIgnore != dv {
-			if err = setField(value.Field(index), _options.before(dv)); nil != err {
+			if dv, err = _options.before(dv); nil != err {
+				return
+			}
+
+			if err = setField(value.Field(index), dv); nil != err {
 				return
 			}
 		}
