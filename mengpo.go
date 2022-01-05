@@ -41,8 +41,10 @@ func Set(ptr interface{}, opts ...option) (err error) {
 			if dv, err = _options.before(dv); nil != err {
 				return
 			}
-
 			if err = setField(value.Field(index), dv); nil != err {
+				return
+			}
+			if dv, err = _options.after(dv); nil != err {
 				return
 			}
 		}
