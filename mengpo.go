@@ -196,6 +196,8 @@ func isInitialField(field reflect.Value, tag string) (initial bool) {
 		initial = !field.IsNil() && reflect.Struct == field.Elem().Kind()
 	case reflect.Slice:
 		initial = field.Len() > 0 || `` != tag
+	case reflect.Map:
+		initial = true
 	default:
 		initial = `` != tag
 	}

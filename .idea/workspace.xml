@@ -76,7 +76,8 @@
     <MESSAGE value="项目迁移" />
     <MESSAGE value="修复生命周期方法" />
     <MESSAGE value="生命周期方法增加字段参数" />
-    <option name="LAST_COMMIT_MESSAGE" value="生命周期方法增加字段参数" />
+    <MESSAGE value="重构方法参数签名" />
+    <option name="LAST_COMMIT_MESSAGE" value="重构方法参数签名" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
