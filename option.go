@@ -1,5 +1,9 @@
 package mengpo
 
+import (
+	`reflect`
+)
+
 type (
 	option interface {
 		apply(options *options)
@@ -20,9 +24,9 @@ func defaultOptions() *options {
 	}
 }
 
-func (o *options) doBefore(from string) (to string, err error) {
+func (o *options) doBefore(from string, field reflect.StructField) (to string, err error) {
 	for _, before := range o.before {
-		if to, err = before(from); nil != err {
+		if to, err = before(from, field); nil != err {
 			break
 		} else {
 			from = to

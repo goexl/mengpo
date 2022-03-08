@@ -1,3 +1,7 @@
 package mengpo
 
-type beforeFunc func(from string) (to string, err error)
+import (
+	`reflect`
+)
+
+type beforeFunc func(from string, field reflect.StructField) (to string, err error)

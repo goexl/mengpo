@@ -1,12 +1,13 @@
 package mengpo
 
 import (
+	`reflect`
 	`strings`
 
 	`github.com/drone/envsubst`
 )
 
-func beforeDefault(from string) (to string, err error) {
+func beforeDefault(from string, _ reflect.StructField) (to string, err error) {
 	hasEnvCount := 0
 	to = from
 	envPrefix := `$`

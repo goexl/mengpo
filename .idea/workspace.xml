@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b570d26b-751a-477a-aa02-2a8bc9b7a04e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/option_clear_before.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/before_default.go" beforeDir="false" afterPath="$PROJECT_DIR$/before_default.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/before_func.go" beforeDir="false" afterPath="$PROJECT_DIR$/before_func.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mengpo.go" beforeDir="false" afterPath="$PROJECT_DIR$/mengpo.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/option.go" beforeDir="false" afterPath="$PROJECT_DIR$/option.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/option_before.go" beforeDir="false" afterPath="$PROJECT_DIR$/option_before.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/option_tag.go" beforeDir="false" afterPath="$PROJECT_DIR$/option_tag.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +80,8 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <MESSAGE value="增加After事件" />
     <MESSAGE value="修复Before方法没有处理完带环境变量的字符串" />
-    <option name="LAST_COMMIT_MESSAGE" value="修复Before方法没有处理完带环境变量的字符串" />
+    <MESSAGE value="项目迁移" />
+    <option name="LAST_COMMIT_MESSAGE" value="项目迁移" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

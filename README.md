@@ -226,7 +226,11 @@ func main() {
 ```go
 package main
 
-import `github.com/storezhang/mengpo`
+import (
+	`reflect`
+
+	`github.com/storezhang/mengpo`
+)
 
 type testByBefore struct {
     Order string `default:"${ORDER}"`
@@ -236,8 +240,10 @@ type testByBefore struct {
 
 func main() {
     env := new(testByBefore)
-    if err := mengpo.Set(env, mengpo.Before(func(original string) string {
-        return original
+    if err := mengpo.Set(env, mengpo.Before(func(from string, field reflect.StructField) (to string,err error) {
+		to = from
+
+		return
     })); nil != err {
         panic(err)
     }
