@@ -1,4 +1,4 @@
-module github.com/storezhang/mengpo
+module github.com/goexl/mengpo
 
 go 1.16
 

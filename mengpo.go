@@ -8,6 +8,11 @@ import (
 	`time`
 )
 
+var (
+	_ = Set
+	_ = Settable
+)
+
 // Settable 是否可被设置默认值
 func Settable(ptr interface{}) bool {
 	return isInitialValue(reflect.ValueOf(ptr))
@@ -38,7 +43,7 @@ func Set(ptr interface{}, opts ...option) (err error) {
 
 	for index := 0; index < _type.NumField(); index++ {
 		if dv := _type.Field(index).Tag.Get(_options.tag); tagIgnore != dv {
-			if dv, err = _options.before(dv); nil != err {
+			if dv, err = _options.doBefore(dv); nil != err {
 				return
 			}
 			if err = setField(value.Field(index), dv); nil != err {

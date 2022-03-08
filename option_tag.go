@@ -1,6 +1,9 @@
 package mengpo
 
-var _ option = (*optionTag)(nil)
+var (
+	_        = Tag
+	_ option = (*optionTag)(nil)
+)
 
 type optionTag struct {
 	tag string

@@ -1,6 +1,9 @@
 package mengpo
 
-var _ option = (*optionBefore)(nil)
+var (
+	_        = Before
+	_ option = (*optionBefore)(nil)
+)
 
 type optionBefore struct {
 	before beforeFunc
@@ -14,5 +17,5 @@ func Before(before beforeFunc) *optionBefore {
 }
 
 func (b *optionBefore) apply(options *options) {
-	options.before = b.before
+	options.before = append(options.before, b.before)
 }
