@@ -10,14 +10,16 @@ type (
 	}
 
 	options struct {
-		tag    string
-		before []beforeFunc
+		tag        string
+		initialize bool
+		before     []beforeFunc
 	}
 )
 
 func defaultOptions() *options {
 	return &options{
-		tag: `default`,
+		tag:        `default`,
+		initialize: true,
 		before: []beforeFunc{
 			beforeDefault,
 		},

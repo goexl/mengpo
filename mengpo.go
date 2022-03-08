@@ -15,7 +15,7 @@ var (
 
 // Settable 是否可被设置默认值
 func Settable(ptr interface{}) bool {
-	return isInitialValue(reflect.ValueOf(ptr))
+	return settable(reflect.ValueOf(ptr))
 }
 
 // Set 设置默认值
@@ -47,7 +47,7 @@ func Set(ptr interface{}, opts ...option) (err error) {
 			if tag, err = _options.doBefore(tag, sf); nil != err {
 				return
 			}
-			if err = setField(value.Field(index), tag); nil != err {
+			if err = setField(value.Field(index), tag, _options); nil != err {
 				return
 			}
 		}
@@ -57,17 +57,13 @@ func Set(ptr interface{}, opts ...option) (err error) {
 	return
 }
 
-func setField(field reflect.Value, tag string) (err error) {
-	if !field.CanSet() {
+func setField(field reflect.Value, tag string, options *options) (err error) {
+	if !canSet(field, tag, options) {
 		return
 	}
 
-	if !isInitialField(field, tag) {
-		return
-	}
-
-	isInitial := isInitialValue(field)
-	if isInitial {
+	_settable := settable(field)
+	if _settable {
 		switch field.Kind() {
 		case reflect.Bool:
 			if value, pbe := strconv.ParseBool(tag); nil == pbe {
@@ -160,9 +156,9 @@ func setField(field reflect.Value, tag string) (err error) {
 
 	switch field.Kind() {
 	case reflect.Ptr:
-		if isInitial || field.Elem().Kind() == reflect.Struct {
+		if _settable || field.Elem().Kind() == reflect.Struct {
 			// 不关注错误，后面的代码必须执行
-			_ = setField(field.Elem(), tag)
+			_ = setField(field.Elem(), tag, options)
 			_setter(field.Interface())
 		}
 	case reflect.Struct:
@@ -171,7 +167,7 @@ func setField(field reflect.Value, tag string) (err error) {
 		}
 	case reflect.Slice:
 		for index := 0; index < field.Len(); index++ {
-			if err = setField(field.Index(index), tag); nil != err {
+			if err = setField(field.Index(index), tag, options); nil != err {
 				return
 			}
 		}
@@ -184,22 +180,26 @@ func parseJson(from string) []byte {
 	return []byte(strings.ReplaceAll(from, `'`, `"`))
 }
 
-func isInitialValue(field reflect.Value) bool {
+func settable(field reflect.Value) bool {
 	return reflect.DeepEqual(reflect.Zero(field.Type()).Interface(), field.Interface())
 }
 
-func isInitialField(field reflect.Value, tag string) (initial bool) {
+func canSet(field reflect.Value, tag string, options *options) (set bool) {
+	if !field.CanSet() {
+		return
+	}
+
 	switch field.Kind() {
 	case reflect.Struct:
-		initial = true
+		set = options.initialize
 	case reflect.Ptr:
-		initial = !field.IsNil() && reflect.Struct == field.Elem().Kind()
+		set = options.initialize && (!field.IsNil() && reflect.Struct == field.Elem().Kind())
 	case reflect.Slice:
-		initial = field.Len() > 0 || `` != tag
+		set = options.initialize && (field.Len() > 0 || `` != tag)
 	case reflect.Map:
-		initial = true
+		set = options.initialize
 	default:
-		initial = `` != tag
+		set = options.initialize && (`` != tag)
 	}
 
 	return
