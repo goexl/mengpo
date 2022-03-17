@@ -5,6 +5,7 @@ import (
 	`strings`
 
 	`github.com/drone/envsubst`
+	`github.com/goexl/env`
 )
 
 func beforeDefault(from string, _ reflect.StructField) (to string, err error) {
@@ -12,7 +13,7 @@ func beforeDefault(from string, _ reflect.StructField) (to string, err error) {
 	to = from
 	envPrefix := `$`
 	for {
-		if to, err = envsubst.EvalEnv(to); nil != err {
+		if to, err = envsubst.Eval(to, env.Get); nil != err {
 			break
 		}
 
