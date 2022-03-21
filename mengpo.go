@@ -129,7 +129,7 @@ func setField(field reflect.Value, tag string, options *options) (err error) {
 			ref := reflect.New(field.Type())
 			ref.Elem().Set(reflect.MakeSlice(field.Type(), 0, 0))
 			if `` != tag && jsonSlice != tag {
-				if err = json.Unmarshal(parseJson(tag), ref.Interface()); nil != err {
+				if err = json.Unmarshal(convertJson(tag), ref.Interface()); nil != err {
 					return
 				}
 			}
@@ -138,14 +138,14 @@ func setField(field reflect.Value, tag string, options *options) (err error) {
 			ref := reflect.New(field.Type())
 			ref.Elem().Set(reflect.MakeMap(field.Type()))
 			if `` != tag && jsonMap != tag {
-				if err = json.Unmarshal(parseJson(tag), ref.Interface()); nil != err {
+				if err = json.Unmarshal(convertJson(tag), ref.Interface()); nil != err {
 					return
 				}
 			}
 			field.Set(ref.Elem().Convert(field.Type()))
 		case reflect.Struct:
 			if `` != tag && jsonStruct != tag {
-				if err = json.Unmarshal(parseJson(tag), field.Addr().Interface()); nil != err {
+				if err = json.Unmarshal(convertJson(tag), field.Addr().Interface()); nil != err {
 					return
 				}
 			}
@@ -176,7 +176,7 @@ func setField(field reflect.Value, tag string, options *options) (err error) {
 	return
 }
 
-func parseJson(from string) []byte {
+func convertJson(from string) []byte {
 	return []byte(strings.ReplaceAll(from, `'`, `"`))
 }
 
@@ -192,8 +192,6 @@ func canSet(field reflect.Value, tag string, options *options) (set bool) {
 	switch field.Kind() {
 	case reflect.Struct:
 		set = options.initialize
-	case reflect.Ptr:
-		set = options.initialize && (!field.IsNil() && reflect.Struct == field.Elem().Kind())
 	case reflect.Slice:
 		set = options.initialize && (field.Len() > 0 || `` != tag)
 	case reflect.Map:
