@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/drone/envsubst v1.0.3
-	github.com/goexl/env v0.0.1
+	github.com/goexl/env v0.0.2
 )
 
 require (
