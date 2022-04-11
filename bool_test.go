@@ -1,14 +1,17 @@
 package mengpo_test
 
 import (
-	`testing`
+	"testing"
+	"time"
 
-	`github.com/goexl/mengpo`
+	"github.com/goexl/mengpo"
 )
 
 type boolPtr struct {
-	True  *bool `default:"true"`
-	False *bool `default:"false"`
+	Test  time.Duration `default:"1h"`
+	True  *bool         `default:"true"`
+	False *bool         `default:"false"`
+	Int8  int32         `default:"11"`
 	Nil   *bool
 }
 

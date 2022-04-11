@@ -1,11 +1,11 @@
 package mengpo
 
 import (
-	`encoding/json`
-	`reflect`
-	`strconv`
-	`strings`
-	`time`
+	"encoding/json"
+	"reflect"
+	"strconv"
+	"strings"
+	"time"
 )
 
 var (
@@ -68,60 +68,95 @@ func setField(field reflect.Value, tag string, options *options) (err error) {
 		case reflect.Bool:
 			if value, pbe := strconv.ParseBool(tag); nil == pbe {
 				field.Set(reflect.ValueOf(value).Convert(field.Type()))
+			} else if !options.silence {
+				err = pbe
 			}
 		case reflect.Int:
 			if value, pie := strconv.ParseInt(tag, 0, strconv.IntSize); nil == pie {
 				field.Set(reflect.ValueOf(int(value)).Convert(field.Type()))
+			} else if !options.silence {
+				err = pie
 			}
 		case reflect.Int8:
 			if value, pie := strconv.ParseInt(tag, 0, 8); nil == pie {
 				field.Set(reflect.ValueOf(int8(value)).Convert(field.Type()))
+			} else if !options.silence {
+				err = pie
 			}
 		case reflect.Int16:
 			if value, pie := strconv.ParseInt(tag, 0, 16); nil == pie {
 				field.Set(reflect.ValueOf(int16(value)).Convert(field.Type()))
+			} else if !options.silence {
+				err = pie
 			}
 		case reflect.Int32:
 			if value, pie := strconv.ParseInt(tag, 0, 32); nil == pie {
 				field.Set(reflect.ValueOf(int32(value)).Convert(field.Type()))
+			} else if !options.silence {
+				err = pie
 			}
 		case reflect.Int64:
-			if value, pde := time.ParseDuration(tag); nil == pde {
+			var value interface{}
+			var pe error
+			switch field.Interface().(type) {
+			case time.Duration:
+				value, pe = time.ParseDuration(tag)
+			default:
+				value, pe = strconv.ParseInt(tag, 0, 64)
+			}
+
+			if nil != pe && !options.silence {
+				err = pe
+			} else {
 				field.Set(reflect.ValueOf(value).Convert(field.Type()))
-			} else if intValue, pie := strconv.ParseInt(tag, 0, 64); nil == pie {
-				field.Set(reflect.ValueOf(intValue).Convert(field.Type()))
 			}
 		case reflect.Uint:
 			if value, pie := strconv.ParseUint(tag, 0, strconv.IntSize); nil == pie {
 				field.Set(reflect.ValueOf(uint(value)).Convert(field.Type()))
+			} else if !options.silence {
+				err = pie
 			}
 		case reflect.Uint8:
 			if value, pie := strconv.ParseUint(tag, 0, 8); nil == pie {
 				field.Set(reflect.ValueOf(uint8(value)).Convert(field.Type()))
+			} else if !options.silence {
+				err = pie
 			}
 		case reflect.Uint16:
 			if value, pie := strconv.ParseUint(tag, 0, 16); nil == pie {
 				field.Set(reflect.ValueOf(uint16(value)).Convert(field.Type()))
+			} else if !options.silence {
+				err = pie
 			}
 		case reflect.Uint32:
 			if value, pie := strconv.ParseUint(tag, 0, 32); nil == pie {
 				field.Set(reflect.ValueOf(uint32(value)).Convert(field.Type()))
+			} else if !options.silence {
+				err = pie
 			}
 		case reflect.Uint64:
 			if value, pie := strconv.ParseUint(tag, 0, 64); nil == pie {
 				field.Set(reflect.ValueOf(value).Convert(field.Type()))
+			} else if !options.silence {
+				err = pie
 			}
 		case reflect.Uintptr:
 			if value, pie := strconv.ParseUint(tag, 0, strconv.IntSize); nil == pie {
 				field.Set(reflect.ValueOf(uintptr(value)).Convert(field.Type()))
+			} else if !options.silence {
+				err = pie
 			}
 		case reflect.Float32:
 			if value, pfe := strconv.ParseFloat(tag, 32); nil == pfe {
 				field.Set(reflect.ValueOf(float32(value)).Convert(field.Type()))
+			} else if !options.silence {
+				err = pfe
 			}
 		case reflect.Float64:
 			if value, pfe := strconv.ParseFloat(tag, 64); nil == pfe {
 				field.Set(reflect.ValueOf(value).Convert(field.Type()))
+			} else if !options.silence {
+				err = pfe
 			}
 		case reflect.String:
 			field.Set(reflect.ValueOf(tag).Convert(field.Type()))
@@ -129,7 +164,7 @@ func setField(field reflect.Value, tag string, options *options) (err error) {
 			ref := reflect.New(field.Type())
 			ref.Elem().Set(reflect.MakeSlice(field.Type(), 0, 0))
 			if `` != tag && jsonSlice != tag {
-				if err = json.Unmarshal(convertJson(tag), ref.Interface()); nil != err {
+				if err = convertJson(tag, ref.Interface(), options); nil != err {
 					return
 				}
 			}
@@ -138,14 +173,14 @@ func setField(field reflect.Value, tag string, options *options) (err error) {
 			ref := reflect.New(field.Type())
 			ref.Elem().Set(reflect.MakeMap(field.Type()))
 			if `` != tag && jsonMap != tag {
-				if err = json.Unmarshal(convertJson(tag), ref.Interface()); nil != err {
+				if err = convertJson(tag, ref.Interface(), options); nil != err {
 					return
 				}
 			}
 			field.Set(ref.Elem().Convert(field.Type()))
 		case reflect.Struct:
 			if `` != tag && jsonStruct != tag {
-				if err = json.Unmarshal(convertJson(tag), field.Addr().Interface()); nil != err {
+				if err = convertJson(tag, field.Addr().Interface(), options); nil != err {
 					return
 				}
 			}
@@ -176,8 +211,14 @@ func setField(field reflect.Value, tag string, options *options) (err error) {
 	return
 }
 
-func convertJson(from string) []byte {
-	return []byte(strings.ReplaceAll(from, `'`, `"`))
+func convertJson(from string, value interface{}, options *options) (err error) {
+	// 将JSON字符串转换成易写的形式
+	data := strings.ReplaceAll(from, `'`, `"`)
+	if jsonErr := json.Unmarshal([]byte(data), value); nil != jsonErr && !options.silence {
+		err = jsonErr
+	}
+
+	return
 }
 
 func settable(field reflect.Value) bool {

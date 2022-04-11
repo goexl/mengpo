@@ -1,7 +1,7 @@
 package mengpo
 
 import (
-	`reflect`
+	"reflect"
 )
 
 type (
@@ -12,6 +12,7 @@ type (
 	options struct {
 		tag        string
 		initialize bool
+		silence    bool
 		before     []beforeFunc
 	}
 )
@@ -20,6 +21,7 @@ func defaultOptions() *options {
 	return &options{
 		tag:        `default`,
 		initialize: true,
+		silence:    false,
 		before: []beforeFunc{
 			beforeDefault,
 		},
