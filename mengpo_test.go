@@ -12,7 +12,7 @@ type ptr struct {
 	Nil   *bool
 }
 
-func TestBoolPtr(t *testing.T) {
+func TestSetByPtr(t *testing.T) {
 	_ptr := new(ptr)
 	if err := mengpo.Set(_ptr); nil != err {
 		t.Fatal(err)
