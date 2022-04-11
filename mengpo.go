@@ -3,9 +3,10 @@ package mengpo
 import (
 	"encoding/json"
 	"reflect"
-	"strconv"
 	"strings"
-	"time"
+
+	"github.com/goexl/exc"
+	"github.com/goexl/gox/field"
 )
 
 var (
@@ -25,31 +26,44 @@ func Set(ptr interface{}, opts ...option) (err error) {
 		opt.apply(_options)
 	}
 
-	if reflect.Ptr != reflect.TypeOf(ptr).Kind() {
-		err = errInvalidType
-	}
-	if nil != err {
-		return
-	}
-
+	kind := reflect.TypeOf(ptr).Kind()
 	value := reflect.ValueOf(ptr).Elem()
 	_type := value.Type()
-	if reflect.Struct != _type.Kind() {
-		err = errInvalidType
+	if reflect.Ptr != kind {
+		err = exc.NewField(errorInvalidType, field.String(`kind`, kind.String()))
+	} else if reflect.Struct != _type.Kind() {
+		err = exc.NewField(errorInvalidType, field.String(`type`, _type.String()))
 	}
 	if nil != err {
 		return
 	}
 
+	// 截获错误并按用户配置处理
+	defer func() {
+		if nil == err {
+			return
+		}
+
+		switch _options.errorMod {
+		case ErrorModSilent:
+			err = nil
+		case ErrorModPanic:
+			panic(err)
+		}
+	}()
+
 	for index := 0; index < _type.NumField(); index++ {
-		sf := _type.Field(index)
-		if tag := sf.Tag.Get(_options.tag); tagIgnore != tag {
-			if tag, err = _options.doBefore(tag, sf); nil != err {
-				return
-			}
-			if err = setField(value.Field(index), tag, _options); nil != err {
-				return
-			}
+		_field := _type.Field(index)
+		tag := _field.Tag.Get(_options.tag)
+		if tagIgnore == tag {
+			continue
+		}
+
+		if tag, err = _options.doBefore(tag, _field); nil != err {
+			return
+		}
+		if err = setField(value.Field(index), tag, _options); nil != err {
+			return
 		}
 	}
 	_setter(ptr)
@@ -66,127 +80,47 @@ func setField(field reflect.Value, tag string, options *options) (err error) {
 	if _settable {
 		switch field.Kind() {
 		case reflect.Bool:
-			if value, pbe := strconv.ParseBool(tag); nil == pbe {
-				field.Set(reflect.ValueOf(value).Convert(field.Type()))
-			} else if !options.silence {
-				err = pbe
-			}
+			err = _bool(field, tag)
 		case reflect.Int:
-			if value, pie := strconv.ParseInt(tag, 0, strconv.IntSize); nil == pie {
-				field.Set(reflect.ValueOf(int(value)).Convert(field.Type()))
-			} else if !options.silence {
-				err = pie
-			}
+			err = _int(field, tag)
 		case reflect.Int8:
-			if value, pie := strconv.ParseInt(tag, 0, 8); nil == pie {
-				field.Set(reflect.ValueOf(int8(value)).Convert(field.Type()))
-			} else if !options.silence {
-				err = pie
-			}
+			err = _int8(field, tag)
 		case reflect.Int16:
-			if value, pie := strconv.ParseInt(tag, 0, 16); nil == pie {
-				field.Set(reflect.ValueOf(int16(value)).Convert(field.Type()))
-			} else if !options.silence {
-				err = pie
-			}
+			err = _int16(field, tag)
 		case reflect.Int32:
-			if value, pie := strconv.ParseInt(tag, 0, 32); nil == pie {
-				field.Set(reflect.ValueOf(int32(value)).Convert(field.Type()))
-			} else if !options.silence {
-				err = pie
-			}
+			err = _int32(field, tag)
 		case reflect.Int64:
-			var value interface{}
-			var pe error
-			switch field.Interface().(type) {
-			case time.Duration:
-				value, pe = time.ParseDuration(tag)
-			default:
-				value, pe = strconv.ParseInt(tag, 0, 64)
-			}
-
-			if nil != pe && !options.silence {
-				err = pe
-			} else {
-				field.Set(reflect.ValueOf(value).Convert(field.Type()))
-			}
+			err = _int64(field, tag)
 		case reflect.Uint:
-			if value, pie := strconv.ParseUint(tag, 0, strconv.IntSize); nil == pie {
-				field.Set(reflect.ValueOf(uint(value)).Convert(field.Type()))
-			} else if !options.silence {
-				err = pie
-			}
+			err = _uint(field, tag)
 		case reflect.Uint8:
-			if value, pie := strconv.ParseUint(tag, 0, 8); nil == pie {
-				field.Set(reflect.ValueOf(uint8(value)).Convert(field.Type()))
-			} else if !options.silence {
-				err = pie
-			}
+			err = _uint8(field, tag)
 		case reflect.Uint16:
-			if value, pie := strconv.ParseUint(tag, 0, 16); nil == pie {
-				field.Set(reflect.ValueOf(uint16(value)).Convert(field.Type()))
-			} else if !options.silence {
-				err = pie
-			}
+			err = _uint16(field, tag)
 		case reflect.Uint32:
-			if value, pie := strconv.ParseUint(tag, 0, 32); nil == pie {
-				field.Set(reflect.ValueOf(uint32(value)).Convert(field.Type()))
-			} else if !options.silence {
-				err = pie
-			}
+			err = _uint32(field, tag)
 		case reflect.Uint64:
-			if value, pie := strconv.ParseUint(tag, 0, 64); nil == pie {
-				field.Set(reflect.ValueOf(value).Convert(field.Type()))
-			} else if !options.silence {
-				err = pie
-			}
+			err = _uint64(field, tag)
 		case reflect.Uintptr:
-			if value, pie := strconv.ParseUint(tag, 0, strconv.IntSize); nil == pie {
-				field.Set(reflect.ValueOf(uintptr(value)).Convert(field.Type()))
-			} else if !options.silence {
-				err = pie
-			}
+			err = _uintPtr(field, tag)
 		case reflect.Float32:
-			if value, pfe := strconv.ParseFloat(tag, 32); nil == pfe {
-				field.Set(reflect.ValueOf(float32(value)).Convert(field.Type()))
-			} else if !options.silence {
-				err = pfe
-			}
+			err = _float32(field, tag)
 		case reflect.Float64:
-			if value, pfe := strconv.ParseFloat(tag, 64); nil == pfe {
-				field.Set(reflect.ValueOf(value).Convert(field.Type()))
-			} else if !options.silence {
-				err = pfe
-			}
+			err = _float64(field, tag)
 		case reflect.String:
 			field.Set(reflect.ValueOf(tag).Convert(field.Type()))
 		case reflect.Slice:
-			ref := reflect.New(field.Type())
-			ref.Elem().Set(reflect.MakeSlice(field.Type(), 0, 0))
-			if `` != tag && jsonSlice != tag {
-				if err = convertJson(tag, ref.Interface(), options); nil != err {
-					return
-				}
-			}
-			field.Set(ref.Elem().Convert(field.Type()))
+			err = slice(field, tag)
 		case reflect.Map:
-			ref := reflect.New(field.Type())
-			ref.Elem().Set(reflect.MakeMap(field.Type()))
-			if `` != tag && jsonMap != tag {
-				if err = convertJson(tag, ref.Interface(), options); nil != err {
-					return
-				}
-			}
-			field.Set(ref.Elem().Convert(field.Type()))
+			err = _map(field, tag)
 		case reflect.Struct:
-			if `` != tag && jsonStruct != tag {
-				if err = convertJson(tag, field.Addr().Interface(), options); nil != err {
-					return
-				}
-			}
+			err = _struct(field, tag)
 		case reflect.Ptr:
 			field.Set(reflect.New(field.Type().Elem()))
 		}
+	}
+	if nil != err {
+		return
 	}
 
 	switch field.Kind() {
@@ -211,12 +145,10 @@ func setField(field reflect.Value, tag string, options *options) (err error) {
 	return
 }
 
-func convertJson(from string, value interface{}, options *options) (err error) {
+func convertJson(from string, value interface{}) (err error) {
 	// 将JSON字符串转换成易写的形式
 	data := strings.ReplaceAll(from, `'`, `"`)
-	if jsonErr := json.Unmarshal([]byte(data), value); nil != jsonErr && !options.silence {
-		err = jsonErr
-	}
+	err = json.Unmarshal([]byte(data), value)
 
 	return
 }

@@ -12,7 +12,7 @@ type (
 	options struct {
 		tag        string
 		initialize bool
-		silence    bool
+		errorMod   errorMod
 		before     []beforeFunc
 	}
 )
@@ -21,7 +21,7 @@ func defaultOptions() *options {
 	return &options{
 		tag:        `default`,
 		initialize: true,
-		silence:    false,
+		errorMod:   ErrorModReturn,
 		before: []beforeFunc{
 			beforeDefault,
 		},
