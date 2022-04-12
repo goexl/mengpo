@@ -5,19 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b570d26b-751a-477a-aa02-2a8bc9b7a04e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/bool.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/error_mode.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/exception.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/float.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/int.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/map.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/slice.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/struct.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/uint.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bool_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/mengpo_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/error.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bool_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/bool_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mengpo.go" beforeDir="false" afterPath="$PROJECT_DIR$/mengpo.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/option.go" beforeDir="false" afterPath="$PROJECT_DIR$/option.go" afterDir="false" />
     </list>
@@ -88,7 +78,7 @@
       <recent name="D:\Workspaces\Jetbrains\storezhang\mengpo" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.go test github.com/goexl/mengpo">
+  <component name="RunManager">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="mengpo" />
       <working_directory value="$PROJECT_DIR$" />
@@ -119,30 +109,8 @@
       <framework value="gotest" />
       <method v="2" />
     </configuration>
-    <configuration name="go test github.com/goexl/mengpo" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="mengpo" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="github.com/goexl/mengpo" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <method v="2" />
-    </configuration>
-    <configuration name="gobench github.com/goexl/mengpo" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="mengpo" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="github.com/goexl/mengpo" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gobench" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.go test github.com/goexl/mengpo" />
-        <item itemvalue="Go Test.gobench github.com/goexl/mengpo" />
         <item itemvalue="Go Test.TestBoolPtr in github.com/goexl/mengpo" />
       </list>
     </recent_temporary>
@@ -175,5 +143,16 @@
         <entry key="GOPROXY" value="https://goproxy.cn" />
       </map>
     </environment>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/bool_test.go</url>
+          <line>23</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
