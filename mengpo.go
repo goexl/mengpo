@@ -164,14 +164,17 @@ func canSet(field reflect.Value, tag string, options *options) (set bool) {
 
 	switch field.Kind() {
 	case reflect.Struct:
-		set = options.initialize
+		set = true
+	case reflect.Ptr:
+		set = true
 	case reflect.Slice:
-		set = options.initialize && (field.Len() > 0 || `` != tag)
+		set = field.Len() > 0
 	case reflect.Map:
-		set = options.initialize
+		set = true
 	default:
-		set = options.initialize && (`` != tag)
+		set = true
 	}
+	set = options.initialize && (set || `` != tag)
 
 	return
 }
