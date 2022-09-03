@@ -60,11 +60,12 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/storezhang&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Workspaces/Jetbrains/goexl/mengpo&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -107,7 +108,8 @@
     <MESSAGE value="生命周期方法增加字段参数" />
     <MESSAGE value="重构方法参数签名" />
     <MESSAGE value="增加是否初始化选项" />
-    <option name="LAST_COMMIT_MESSAGE" value="增加是否初始化选项" />
+    <MESSAGE value="bugfix(默认值): 修复指针数组不进行默认值设置的问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="bugfix(默认值): 修复指针数组不进行默认值设置的问题" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

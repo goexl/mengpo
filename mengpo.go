@@ -172,9 +172,9 @@ func canSet(field reflect.Value, tag string, options *options) (set bool) {
 	case reflect.Map:
 		set = true
 	default:
-		set = true
+		set = `` != tag
 	}
-	set = options.initialize && (set || `` != tag)
+	set = options.initialize && set
 
 	return
 }
