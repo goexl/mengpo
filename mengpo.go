@@ -166,9 +166,14 @@ func canSet(field reflect.Value, tag string, options *options) (set bool) {
 	case reflect.Struct:
 		set = true
 	case reflect.Ptr:
-		set = true
+		if `` != tag {
+			set = true
+		} else {
+			ek := field.Elem().Kind()
+			set = reflect.Struct == ek || reflect.Slice == ek || reflect.Map == ek || reflect.Ptr == ek
+		}
 	case reflect.Slice:
-		set = field.Len() > 0
+		set = `` != tag || field.Len() > 0
 	case reflect.Map:
 		set = true
 	default:
