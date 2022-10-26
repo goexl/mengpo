@@ -5,16 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b570d26b-751a-477a-aa02-2a8bc9b7a04e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/env_getter.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/option_processor.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/processor.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/before_default.go" beforeDir="false" afterPath="$PROJECT_DIR$/processor_default.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mengpo.go" beforeDir="false" afterPath="$PROJECT_DIR$/mengpo.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mengpo_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/mengpo_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/option.go" beforeDir="false" afterPath="$PROJECT_DIR$/option.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/option_before.go" beforeDir="false" afterPath="$PROJECT_DIR$/option_env_getter.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/option_clear_before.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/before_func.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +146,8 @@
     <MESSAGE value="增加是否初始化选项" />
     <MESSAGE value="bugfix(默认值): 修复指针数组不进行默认值设置的问题" />
     <MESSAGE value="fix(指针): 默认值是否可设置判断&#10;&#10;[skip ci]" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix(指针): 默认值是否可设置判断&#10;&#10;[skip ci]" />
+    <MESSAGE value="feat(处理器): 默认处理器增加可配置的环境变量提取器" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(处理器): 默认处理器增加可配置的环境变量提取器" />
   </component>
   <component name="VgoProject">
     <environment>
