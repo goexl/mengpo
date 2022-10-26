@@ -5,10 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b570d26b-751a-477a-aa02-2a8bc9b7a04e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/env_getter.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/option_processor.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/processor.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/before_default.go" beforeDir="false" afterPath="$PROJECT_DIR$/processor_default.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mengpo.go" beforeDir="false" afterPath="$PROJECT_DIR$/mengpo.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mengpo_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/mengpo_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/option.go" beforeDir="false" afterPath="$PROJECT_DIR$/option.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/option_before.go" beforeDir="false" afterPath="$PROJECT_DIR$/option_env_getter.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/option_clear_before.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +58,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
@@ -62,7 +69,7 @@
     "WebServerToolWindowFactoryState": "false",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "D:/Workspaces/Jetbrains/storezhang/ddns",
+    "last_opened_file_path": "D:/Workspaces/Jetbrains/goexl/mengpo",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -76,7 +83,7 @@
       <recent name="D:\Workspaces\Jetbrains\storezhang\mengpo" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestSetByPtr in github.com/goexl/mengpo">
+  <component name="RunManager" selected="Go Test.TestEnvGetter in github.com/goexl/mengpo">
     <configuration name="TestBoolPtr in github.com/goexl/mengpo" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="mengpo" />
       <working_directory value="$PROJECT_DIR$" />
@@ -86,6 +93,17 @@
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <pattern value="^\QTestBoolPtr\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestEnvGetter in github.com/goexl/mengpo" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="mengpo" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/goexl/mengpo" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestEnvGetter\E$" />
       <method v="2" />
     </configuration>
     <configuration name="TestSetByPtr in github.com/goexl/mengpo" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -101,6 +119,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestEnvGetter in github.com/goexl/mengpo" />
         <item itemvalue="Go Test.TestSetByPtr in github.com/goexl/mengpo" />
         <item itemvalue="Go Test.TestBoolPtr in github.com/goexl/mengpo" />
       </list>
@@ -134,7 +153,8 @@
     <MESSAGE value="重构方法参数签名" />
     <MESSAGE value="增加是否初始化选项" />
     <MESSAGE value="bugfix(默认值): 修复指针数组不进行默认值设置的问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="bugfix(默认值): 修复指针数组不进行默认值设置的问题" />
+    <MESSAGE value="fix(指针): 默认值是否可设置判断&#10;&#10;[skip ci]" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix(指针): 默认值是否可设置判断&#10;&#10;[skip ci]" />
   </component>
   <component name="VgoProject">
     <environment>

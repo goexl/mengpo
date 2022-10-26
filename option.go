@@ -2,6 +2,8 @@ package mengpo
 
 import (
 	"reflect"
+
+	"github.com/goexl/env"
 )
 
 type (
@@ -13,24 +15,30 @@ type (
 		tag        string
 		initialize bool
 		errorMod   errorMod
-		before     []beforeFunc
+		envGetter  envGetter
+		processors []processor
 	}
 )
 
-func defaultOptions() *options {
-	return &options{
-		tag:        `default`,
-		initialize: true,
-		errorMod:   ErrorModReturn,
-		before: []beforeFunc{
-			beforeDefault,
-		},
+func defaultOptions() (_options *options) {
+	_options = new(options)
+	_options.tag = `default`
+	_options.initialize = true
+	_options.errorMod = ErrorModReturn
+	_options.envGetter = env.Get
+
+	pd := new(processorDefault)
+	pd.options = _options
+	_options.processors = []processor{
+		pd,
 	}
+
+	return
 }
 
-func (o *options) doBefore(from string, field reflect.StructField) (to string, err error) {
-	for _, before := range o.before {
-		if to, err = before(from, field); nil != err {
+func (o *options) doProcessors(from string, field reflect.StructField) (to string, err error) {
+	for _, _processor := range o.processors {
+		if to, err = _processor.Process(from, field); nil != err {
 			break
 		} else {
 			from = to

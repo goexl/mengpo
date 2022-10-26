@@ -59,7 +59,7 @@ func Set(ptr interface{}, opts ...option) (err error) {
 			continue
 		}
 
-		if tag, err = _options.doBefore(tag, _field); nil != err {
+		if tag, err = _options.doProcessors(tag, _field); nil != err {
 			return
 		}
 		if err = setField(value.Field(index), tag, _options); nil != err {

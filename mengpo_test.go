@@ -19,6 +19,10 @@ type (
 		User  user    `default:"{'username': 'storezhang', 'password': 'test'}"`
 		Users []*user `default:"[{'username': 'storezhang', 'password': 'test'}]"`
 	}
+
+	envPtr struct {
+		Env string `default:"${TEST_ENV}"`
+	}
 )
 
 func TestSetByPtr(t *testing.T) {
@@ -44,5 +48,21 @@ func TestSetByPtr(t *testing.T) {
 	}
 	if 1 != len(_ptr.Users) {
 		t.Fatalf(`期望：[{"username": "storezhang", "password": "test"}]，实际：%v`, _ptr.Users)
+	}
+}
+
+func TestEnvGetter(t *testing.T) {
+	getter := func(key string) (env string) {
+		env = key
+
+		return
+	}
+
+	_ptr := new(envPtr)
+	if err := mengpo.Set(_ptr, mengpo.EnvGetter(getter)); nil != err {
+		t.Fatal(err)
+	}
+	if `TEST_ENV` != _ptr.Env {
+		t.Fatalf(`期望：TEST_ENV，实际：%v`, _ptr.Env)
 	}
 }
