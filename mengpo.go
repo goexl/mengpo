@@ -30,9 +30,9 @@ func Set(ptr interface{}, opts ...option) (err error) {
 	value := reflect.ValueOf(ptr).Elem()
 	_type := value.Type()
 	if reflect.Ptr != kind {
-		err = exc.NewField(errorInvalidType, field.New[string]("kind", kind.String()))
+		err = exc.NewField(errorInvalidType, field.New("kind", kind.String()))
 	} else if reflect.Struct != _type.Kind() {
-		err = exc.NewField(errorInvalidType, field.New[string]("type", _type.String()))
+		err = exc.NewField(errorInvalidType, field.New("type", _type.String()))
 	}
 	if nil != err {
 		return
