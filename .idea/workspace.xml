@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b570d26b-751a-477a-aa02-2a8bc9b7a04e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mengpo.go" beforeDir="false" afterPath="$PROJECT_DIR$/mengpo.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +116,8 @@
     <MESSAGE value="bugfix(默认值): 修复指针数组不进行默认值设置的问题" />
     <MESSAGE value="fix(指针): 默认值是否可设置判断&#10;&#10;[skip ci]" />
     <MESSAGE value="feat(处理器): 默认处理器增加可配置的环境变量提取器" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(处理器): 默认处理器增加可配置的环境变量提取器" />
+    <MESSAGE value="feat(依赖): 升级gox到0.1.3" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(依赖): 升级gox到0.1.3" />
   </component>
   <component name="VgoProject">
     <environment>
