@@ -2,7 +2,9 @@ package mengpo_test
 
 import (
 	"testing"
+	"time"
 
+	"github.com/goexl/gox"
 	"github.com/goexl/mengpo"
 )
 
@@ -13,11 +15,13 @@ type (
 	}
 
 	ptr struct {
-		True  *bool `default:"true"`
-		False *bool `default:"false"`
-		Nil   *bool
-		User  user    `default:"{'username': 'storezhang', 'password': 'test'}"`
-		Users []*user `default:"[{'username': 'storezhang', 'password': 'test'}]"`
+		True    bool  `default:"true"`
+		False   *bool `default:"false"`
+		Nil     *bool
+		Timeout time.Duration `default:"1h"`
+		Size    gox.Size      `default:"1g"`
+		User    user          `default:"{'username': 'storezhang', 'password': 'test'}"`
+		Users   []*user       `default:"[{'username': 'storezhang', 'password': 'test'}]"`
 	}
 
 	envPtr struct {
@@ -31,8 +35,8 @@ func TestSetByPtr(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if true != *_ptr.True {
-		t.Fatalf(`期望：true，实际：%v`, *_ptr.True)
+	if true != _ptr.True {
+		t.Fatalf(`期望：true，实际：%v`, _ptr.True)
 	}
 
 	if false != *_ptr.False {
@@ -41,6 +45,14 @@ func TestSetByPtr(t *testing.T) {
 
 	if nil != _ptr.Nil {
 		t.Fatalf(`期望：nil，实际：%v`, _ptr.Nil)
+	}
+
+	if time.Hour != _ptr.Timeout {
+		t.Fatalf(`期望：%d，实际：%v`, time.Hour, _ptr.Timeout)
+	}
+
+	if gox.SizeGB != _ptr.Size {
+		t.Fatalf(`期望：%d，实际：%v`, gox.SizeGB, _ptr.Size)
 	}
 
 	if `storezhang` != _ptr.User.Username || `test` != _ptr.User.Password {

@@ -157,29 +157,29 @@ func settable(field reflect.Value) bool {
 	return reflect.DeepEqual(reflect.Zero(field.Type()).Interface(), field.Interface())
 }
 
-func canSet(field reflect.Value, tag string, options *options) (set bool) {
+func canSet(field reflect.Value, tag string, options *options) (settable bool) {
 	if !field.CanSet() {
 		return
 	}
 
 	switch field.Kind() {
 	case reflect.Struct:
-		set = true
+		settable = true
 	case reflect.Ptr:
 		if `` != tag {
-			set = true
+			settable = true
 		} else {
 			ek := field.Elem().Kind()
-			set = reflect.Struct == ek || reflect.Slice == ek || reflect.Map == ek || reflect.Ptr == ek
+			settable = reflect.Struct == ek || reflect.Slice == ek || reflect.Map == ek || reflect.Ptr == ek
 		}
 	case reflect.Slice:
-		set = `` != tag || field.Len() > 0
+		settable = `` != tag || field.Len() > 0
 	case reflect.Map:
-		set = true
+		settable = true
 	default:
-		set = `` != tag
+		settable = `` != tag
 	}
-	set = options.initialize && set
+	settable = options.initialize && settable
 
 	return
 }

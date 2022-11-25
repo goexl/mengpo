@@ -4,6 +4,8 @@ import (
 	"reflect"
 	"strconv"
 	"time"
+
+	"github.com/goexl/gox"
 )
 
 func _int(field reflect.Value, tag string) (err error) {
@@ -47,18 +49,18 @@ func _int32(field reflect.Value, tag string) (err error) {
 }
 
 func _int64(field reflect.Value, tag string) (err error) {
-	var value interface{}
+	var value any
 	switch field.Interface().(type) {
 	case time.Duration:
 		value, err = time.ParseDuration(tag)
+	case gox.Size:
+		value, err = gox.ParseSize(tag)
 	default:
 		value, err = strconv.ParseInt(tag, 0, 64)
 	}
-	if nil != err {
-		return
+	if nil == err {
+		field.Set(reflect.ValueOf(value).Convert(field.Type()))
 	}
-
-	field.Set(reflect.ValueOf(value).Convert(field.Type()))
 
 	return
 }
