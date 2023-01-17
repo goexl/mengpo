@@ -74,7 +74,7 @@ func TestEnvGetter(t *testing.T) {
 	if err := mengpo.New().Getter(new(getter)).Build().Set(_ptr); nil != err {
 		t.Fatal(err)
 	}
-	if `TEST_ENV` != _ptr.Env {
-		t.Fatalf(`期望：TEST_ENV，实际：%v`, _ptr.Env)
+	if "TEST_ENV" != _ptr.Env {
+		t.Fatalf("期望：TEST_ENV，实际：%v", _ptr.Env)
 	}
 }
