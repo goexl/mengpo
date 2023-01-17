@@ -11,12 +11,18 @@ type processorDefault struct {
 	options *options
 }
 
+func newDefaultProcessor(_options *options) *processorDefault {
+	return &processorDefault{
+		options: _options,
+	}
+}
+
 func (p *processorDefault) Process(tag string, _ reflect.StructField) (to string, err error) {
 	hasEnvCount := 0
 	to = tag
 	envPrefix := `$`
 	for {
-		if to, err = envsubst.Eval(to, p.options.envGetter); nil != err {
+		if to, err = envsubst.Eval(to, p.options.getter.Get); nil != err {
 			break
 		}
 

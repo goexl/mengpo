@@ -31,7 +31,7 @@ type (
 
 func TestSetByPtr(t *testing.T) {
 	_ptr := new(ptr)
-	if err := mengpo.Set(_ptr); nil != err {
+	if err := mengpo.New().Build().Set(_ptr); nil != err {
 		t.Fatal(err)
 	}
 
@@ -63,15 +63,15 @@ func TestSetByPtr(t *testing.T) {
 	}
 }
 
+type getter struct{}
+
+func (g *getter) Get(key string) string {
+	return key
+}
+
 func TestEnvGetter(t *testing.T) {
-	getter := func(key string) (env string) {
-		env = key
-
-		return
-	}
-
 	_ptr := new(envPtr)
-	if err := mengpo.Set(_ptr, mengpo.EnvGetter(getter)); nil != err {
+	if err := mengpo.New().Getter(new(getter)).Build().Set(_ptr); nil != err {
 		t.Fatal(err)
 	}
 	if `TEST_ENV` != _ptr.Env {

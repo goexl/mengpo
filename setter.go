@@ -5,7 +5,7 @@ type setter interface {
 	Default()
 }
 
-func _setter(val interface{}) {
+func (m *mengpo) setter(val any) {
 	if s, ok := val.(setter); ok {
 		s.Default()
 	}

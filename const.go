@@ -1,9 +1,9 @@
 package mengpo
 
 const (
-	tagIgnore string = `-`
+	tagIgnore string = "-"
 
-	jsonSlice  string = `[]`
-	jsonMap    string = `{}`
-	jsonStruct string = `{}`
+	jsonSlice  string = "[]"
+	jsonMap    string = "{}"
+	jsonStruct string = "{}"
 )

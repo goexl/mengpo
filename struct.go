@@ -5,11 +5,11 @@ import (
 	"strings"
 )
 
-func _struct(field reflect.Value, tag string) (err error) {
-	if `` == strings.TrimSpace(tag) || jsonStruct == tag {
+func (m *mengpo) structure(field reflect.Value, tag string) (err error) {
+	if "" == strings.TrimSpace(tag) || jsonStruct == tag {
 		return
 	}
-	err = convertJson(tag, field.Addr().Interface())
+	err = m.convertJson(tag, field.Addr().Interface())
 
 	return
 }
