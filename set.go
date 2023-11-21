@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/goexl/exc"
+	"github.com/goexl/exception"
 	"github.com/goexl/gox/field"
 )
 
@@ -18,9 +18,9 @@ func (m *mengpo) Set(ptr any) (err error) {
 	value := reflect.ValueOf(ptr).Elem()
 	_type := value.Type()
 	if reflect.Ptr != kind {
-		err = exc.NewField(errorInvalidType, field.New("kind", kind.String()))
+		err = exception.New().Message(errorInvalidType).Field(field.New("kind", kind.String())).Build()
 	} else if reflect.Struct != _type.Kind() {
-		err = exc.NewField(errorInvalidType, field.New("type", _type.String()))
+		err = exception.New().Message(errorInvalidType).Field(field.New("type", _type.String())).Build()
 	}
 	if nil != err {
 		return
