@@ -19,7 +19,7 @@ type (
 		False   *bool `default:"false"`
 		Nil     *bool
 		Timeout time.Duration `default:"1h"`
-		Size    gox.Size      `default:"1g"`
+		Bytes   gox.Bytes     `default:"1g"`
 		User    user          `default:"{'username': 'storezhang', 'password': 'test'}"`
 		Users   []*user       `default:"[{'username': 'storezhang', 'password': 'test'}]"`
 	}
@@ -51,8 +51,8 @@ func TestSetByPtr(t *testing.T) {
 		t.Fatalf(`期望：%d，实际：%v`, time.Hour, _ptr.Timeout)
 	}
 
-	if gox.SizeGB != _ptr.Size {
-		t.Fatalf(`期望：%d，实际：%v`, gox.SizeGB, _ptr.Size)
+	if gox.BytesGB != _ptr.Bytes {
+		t.Fatalf(`期望：%d，实际：%v`, gox.BytesGB, _ptr.Bytes)
 	}
 
 	if `storezhang` != _ptr.User.Username || `test` != _ptr.User.Password {

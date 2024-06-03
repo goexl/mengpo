@@ -53,8 +53,8 @@ func (m *mengpo) int64(field reflect.Value, tag string) (err error) {
 	switch field.Interface().(type) {
 	case time.Duration:
 		value, err = time.ParseDuration(tag)
-	case gox.Size:
-		value, err = gox.ParseSize(tag)
+	case gox.Bytes:
+		value, err = gox.ParseBytes(tag)
 	default:
 		value, err = strconv.ParseInt(tag, 0, 64)
 	}
