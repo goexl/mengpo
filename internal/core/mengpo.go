@@ -81,10 +81,20 @@ func (m *Mengpo) setField(field reflect.Value, tag string) (err error) {
 	} else if reflect.PointerTo(field.Type()).Implements(m.unmarshaler) || field.Type().Implements(m.unmarshaler) {
 		// 实现了反序列化接口
 		m.setUnmarshaler(field, tag)
-	} else if reflect.DeepEqual(reflect.Zero(field.Type()).Interface(), field.Interface()) { // 判断是否可以被设置值
-		err = m.setSettable(field, tag)
 	} else {
-		err = m.setNotSettable(field, tag)
+		err = m.set(field, tag)
+	}
+
+	return
+}
+
+func (m *Mengpo) set(field reflect.Value, tag string) (err error) {
+	settable := reflect.DeepEqual(reflect.Zero(field.Type()).Interface(), field.Interface())
+	if settable { // 判断是否可以被设置值
+		err = m.setSettable(field, tag)
+	}
+	if nil == err {
+		err = m.setNotSettable(field, tag, settable)
 	}
 
 	return
@@ -156,13 +166,11 @@ func (m *Mengpo) setSettable(field reflect.Value, tag string) (err error) {
 	return
 }
 
-func (m *Mengpo) setNotSettable(field reflect.Value, tag string) (err error) {
+func (m *Mengpo) setNotSettable(field reflect.Value, tag string, settable bool) (err error) {
 	switch field.Kind() {
 	case reflect.Ptr:
-		if field.Elem().Kind() == reflect.Struct {
-			// 不关注错误，后面的代码必须执行
-			_ = m.setField(field.Elem(), tag)
-			_ = m.setter(field.Interface())
+		if settable || field.Elem().Kind() == reflect.Struct {
+			err = m.setField(field.Elem(), tag)
 		}
 	case reflect.Struct:
 		if err = m.Set(field.Addr().Interface()); nil != err {
@@ -320,10 +328,9 @@ func (m *Mengpo) slice(field reflect.Value, tag string) (err error) {
 }
 
 func (m *Mengpo) structure(field reflect.Value, tag string) (err error) {
-	if "" == strings.TrimSpace(tag) || constant.JsonStruct == tag {
-		return
+	if !("" == strings.TrimSpace(tag) || constant.JsonStruct == tag) {
+		err = m.convertJson(tag, field.Addr().Interface())
 	}
-	err = m.convertJson(tag, field.Addr().Interface())
 
 	return
 }
@@ -397,14 +404,6 @@ func (m *Mengpo) mapping(field reflect.Value, tag string) (err error) {
 
 	if err = m.convertJson(tag, ref.Interface()); nil == err {
 		field.Set(ref.Elem().Convert(field.Type()))
-	}
-
-	return
-}
-
-func (m *Mengpo) setter(val any) (err error) {
-	if _, ok := val.(kernel.Unmarshaler); ok {
-		// s.Default()
 	}
 
 	return
