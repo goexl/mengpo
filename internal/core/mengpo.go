@@ -150,7 +150,7 @@ func (m *Mengpo) setSettable(field reflect.Value, tag string) (err error) {
 	case reflect.Ptr:
 		field.Set(reflect.New(field.Type().Elem()))
 	default:
-		err = exception.New().Message(constant.ErrorInvalidType).Build()
+		err = nil
 	}
 
 	return
@@ -175,7 +175,7 @@ func (m *Mengpo) setNotSettable(field reflect.Value, tag string) (err error) {
 			}
 		}
 	default:
-		err = exception.New().Message(constant.ErrorInvalidType).Build()
+		err = nil
 	}
 
 	return
