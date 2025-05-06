@@ -1,11 +1,7 @@
 package mengpo
 
-type mengpo struct {
-	options *options
-}
+import (
+	"github.com/goexl/mengpo/internal/core"
+)
 
-func newMengpo(options *options) *mengpo {
-	return &mengpo{
-		options: options,
-	}
-}
+type Mengpo = core.Mengpo

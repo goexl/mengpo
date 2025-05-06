@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/goexl/gox"
-	"github.com/goexl/mengpo"
+	"github.com/goexl/mengpo/internal/builder"
 )
 
 type (
@@ -31,7 +31,7 @@ type (
 
 func TestSetByPtr(t *testing.T) {
 	_ptr := new(ptr)
-	if err := mengpo.New().Build().Set(_ptr); nil != err {
+	if err := builder.New().Build().Set(_ptr); nil != err {
 		t.Fatal(err)
 	}
 
@@ -71,10 +71,36 @@ func (g *getter) Get(key string) string {
 
 func TestEnvGetter(t *testing.T) {
 	_ptr := new(envPtr)
-	if err := mengpo.New().Getter(new(getter)).Build().Set(_ptr); nil != err {
+	if err := builder.New().Getter(new(getter)).Build().Set(_ptr); nil != err {
 		t.Fatal(err)
 	}
 	if "TEST_ENV" != _ptr.Env {
 		t.Fatalf("期望：TEST_ENV，实际：%v", _ptr.Env)
+	}
+}
+
+type custom uint8
+
+func (c *custom) UnmarshalString(_ string) (err error) {
+	*c = custom(1)
+
+	return
+}
+
+type customType struct {
+	Normal  custom  `default:"5"`
+	Pointer *custom `default:"6"`
+}
+
+func TestCustom(t *testing.T) {
+	_custom := new(customType)
+	if err := builder.New().Build().Set(_custom); nil != err {
+		t.Fatal(err)
+	}
+	if custom(1) != _custom.Normal {
+		t.Fatalf("期望：1，实际：%v", _custom.Normal)
+	}
+	if custom(1) != *_custom.Pointer {
+		t.Fatalf("期望：1，实际：%v", _custom.Normal)
 	}
 }

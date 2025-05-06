@@ -1,10 +1,9 @@
-package mengpo
+package kernel
 
 import (
 	"reflect"
 )
 
-type processor interface {
-	// Process 默认值处理
+type Processor interface {
 	Process(tag string, field reflect.StructField) (to string, err error)
 }
