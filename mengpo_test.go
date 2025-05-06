@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/goexl/gox"
-	"github.com/goexl/mengpo/internal/builder"
+	"github.com/goexl/mengpo"
 )
 
 type (
@@ -31,7 +31,7 @@ type (
 
 func TestSetByPtr(t *testing.T) {
 	_ptr := new(ptr)
-	if err := builder.New().Build().Set(_ptr); nil != err {
+	if err := mengpo.New().Build().Set(_ptr); nil != err {
 		t.Fatal(err)
 	}
 
@@ -71,7 +71,7 @@ func (g *getter) Get(key string) string {
 
 func TestEnvGetter(t *testing.T) {
 	_ptr := new(envPtr)
-	if err := builder.New().Getter(new(getter)).Build().Set(_ptr); nil != err {
+	if err := mengpo.New().Getter(new(getter)).Build().Set(_ptr); nil != err {
 		t.Fatal(err)
 	}
 	if "TEST_ENV" != _ptr.Env {
@@ -94,7 +94,7 @@ type customType struct {
 
 func TestCustom(t *testing.T) {
 	_custom := new(customType)
-	if err := builder.New().Build().Set(_custom); nil != err {
+	if err := mengpo.New().Build().Set(_custom); nil != err {
 		t.Fatal(err)
 	}
 	if custom(1) != _custom.Normal {
