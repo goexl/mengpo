@@ -81,7 +81,7 @@ func TestEnvGetter(t *testing.T) {
 
 type custom uint8
 
-func (c *custom) UnmarshalString(_ string) (err error) {
+func (c *custom) Unmarshal(_ []byte) (err error) {
 	*c = custom(1)
 
 	return

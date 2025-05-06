@@ -98,9 +98,9 @@ func (m *Mengpo) setUnmarshaler(field reflect.Value, tag string) {
 	} else {
 		value = reflect.New(field.Type())
 	}
-	method := value.MethodByName("UnmarshalString")
+	method := value.MethodByName("Unmarshal")
 	if method.IsValid() { // 调用设置值
-		method.Call([]reflect.Value{reflect.ValueOf(tag)})
+		method.Call([]reflect.Value{reflect.ValueOf([]byte(tag))})
 	}
 	if reflect.Ptr != kind { // 将指针实例的值赋回原字段
 		field.Set(value.Elem())
