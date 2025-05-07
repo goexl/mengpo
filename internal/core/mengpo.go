@@ -77,24 +77,26 @@ func (m *Mengpo) Set(target runtime.Pointer) (err error) {
 
 func (m *Mengpo) setField(field reflect.Value, tag string) (err error) {
 	if !m.canSet(field, tag) {
-		// 不做任何操作
-	} else if reflect.PointerTo(field.Type()).Implements(m.unmarshaler) || field.Type().Implements(m.unmarshaler) {
-		// 实现了反序列化接口
-		m.setUnmarshaler(field, tag)
-	} else {
+		return
+	}
+
+	isNil := reflect.DeepEqual(reflect.Zero(field.Type()).Interface(), field.Interface()) // 被设置值才可以进行默认值设置
+	if isNil {
 		err = m.set(field, tag)
+	}
+	if nil == err {
+		err = m.setNotSettable(field, tag, isNil)
 	}
 
 	return
 }
 
 func (m *Mengpo) set(field reflect.Value, tag string) (err error) {
-	settable := reflect.DeepEqual(reflect.Zero(field.Type()).Interface(), field.Interface())
-	if settable { // 判断是否可以被设置值
+	if reflect.PointerTo(field.Type()).Implements(m.unmarshaler) || field.Type().Implements(m.unmarshaler) {
+		// 实现了反序列化接口
+		m.setUnmarshaler(field, tag)
+	} else {
 		err = m.setSettable(field, tag)
-	}
-	if nil == err {
-		err = m.setNotSettable(field, tag, settable)
 	}
 
 	return
