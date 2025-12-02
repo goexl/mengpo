@@ -1,3 +1,3 @@
 package constant
 
-const ErrorInvalidType = "必须是一个结构体指针"
+const ErrorMustPointer = "必须是一个指针"

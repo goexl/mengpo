@@ -33,9 +33,7 @@ func (m *Mengpo) Set(target runtime.Pointer) (err error) {
 	value := reflect.ValueOf(target).Elem()
 	typ := value.Type()
 	if reflect.Ptr != kind {
-		err = exception.New().Message(constant.ErrorInvalidType).Field(field.New("kind", kind.String())).Build()
-	} else if reflect.Struct != typ.Kind() {
-		err = exception.New().Message(constant.ErrorInvalidType).Field(field.New("type", typ.String())).Build()
+		err = exception.New().Message(constant.ErrorMustPointer).Field(field.New("kind", kind.String())).Build()
 	}
 	if nil != err {
 		return
@@ -57,18 +55,20 @@ func (m *Mengpo) Set(target runtime.Pointer) (err error) {
 		}
 	}()
 
-	for index := 0; index < typ.NumField(); index++ {
-		setField := typ.Field(index)
-		tag := setField.Tag.Get(m.params.Tag)
-		if constant.TagIgnore == tag {
-			continue
-		}
+	if reflect.Struct == typ.Kind() {
+		for index := 0; index < typ.NumField(); index++ {
+			setField := typ.Field(index)
+			tag := setField.Tag.Get(m.params.Tag)
+			if constant.TagIgnore == tag {
+				continue
+			}
 
-		if tag, err = m.params.Process(tag, setField); nil != err {
-			return
-		}
-		if err = m.setField(value.Field(index), tag); nil != err {
-			return
+			if tag, err = m.params.Process(tag, setField); nil != err {
+				return
+			}
+			if err = m.setField(value.Field(index), tag); nil != err {
+				return
+			}
 		}
 	}
 
