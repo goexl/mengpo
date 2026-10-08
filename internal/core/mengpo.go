@@ -19,12 +19,14 @@ import (
 type Mengpo struct {
 	params      *param.Mengpo
 	unmarshaler reflect.Type
+	defaulter   reflect.Type
 }
 
 func MewMengpo(params *param.Mengpo) *Mengpo {
 	return &Mengpo{
 		params:      params,
 		unmarshaler: reflect.TypeOf((*kernel.Unmarshaler)(nil)).Elem(),
+		defaulter:   reflect.TypeOf((*kernel.Defaulter)(nil)).Elem(),
 	}
 }
 
@@ -95,6 +97,9 @@ func (m *Mengpo) set(field reflect.Value, tag string) (err error) {
 	if reflect.PointerTo(field.Type()).Implements(m.unmarshaler) || field.Type().Implements(m.unmarshaler) {
 		// 实现了反序列化接口
 		m.setUnmarshaler(field, tag)
+	} else if reflect.PointerTo(field.Type()).Implements(m.defaulter) || field.Type().Implements(m.defaulter) {
+		// 实现了默认值接口
+		m.setDefaulter(field)
 	} else {
 		err = m.setSettable(field, tag)
 	}
@@ -113,6 +118,25 @@ func (m *Mengpo) setUnmarshaler(field reflect.Value, tag string) {
 	method := value.MethodByName("Unmarshal")
 	if method.IsValid() { // 调用设置值
 		method.Call([]reflect.Value{reflect.ValueOf([]byte(tag))})
+	}
+	if reflect.Ptr != kind { // 将指针实例的值赋回原字段
+		field.Set(value.Elem())
+	}
+
+	return
+}
+
+func (m *Mengpo) setDefaulter(field reflect.Value) {
+	value := field
+	kind := field.Kind()
+	if reflect.Ptr == kind && field.IsNil() {
+		field.Set(reflect.New(field.Type().Elem())) // 初始化指针字段
+	} else {
+		value = reflect.New(field.Type())
+	}
+	method := value.MethodByName("Default")
+	if method.IsValid() { // 调用设置值
+		method.Call(nil)
 	}
 	if reflect.Ptr != kind { // 将指针实例的值赋回原字段
 		field.Set(value.Elem())
